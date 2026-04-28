@@ -30,3 +30,17 @@ def add_income(amount, source, description=""):
     records.append(record)
     save_records(records)
     return record
+
+def add_expense(amount, category, description=""):
+    """Добавляет запись о расходе."""
+    record = {
+        "type": "expense",
+        "amount": amount,
+        "category": category,
+        "description": description,
+        "date": str(date.today())
+    }
+    records = load_records()
+    records.append(record)
+    save_records(records)
+    return record

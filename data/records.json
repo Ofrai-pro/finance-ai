@@ -5,5 +5,12 @@
     "source": "ЗП",
     "description": "",
     "date": "2026-04-25"
+  },
+  {
+    "type": "expense",
+    "amount": 13000.0,
+    "category": "еда",
+    "description": "Шаурма",
+    "date": "2026-04-28"
   }
 ]
