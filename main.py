@@ -1,5 +1,6 @@
-# main.py - Личный финансовый ассистент (с отменой операций)
+# main.py - Личный финансовый ассистент (с нейросетью)
 from src.data_manager import add_income, add_expense, add_event, load_records
+from src.ai_assistant import run_assistant, ai_insights
 
 def input_or_cancel(prompt, allow_empty=False):
     """Запрашивает ввод. Если allow_empty=True, пустая строка допустима.
@@ -16,9 +17,10 @@ def main():
         print("1. Добавить доход")
         print("2. Добавить расход")
         print("3. Добавить событие/план")
-        print("4. ИИ-помощник (просмотр, аналитика, советы)")
-        print("5. Выход")
-        choice = input("Выберите действие (1-5): ").strip()
+        print("4. ИИ-помощник (аналитика и правила)")
+	print("5. Нейросеть (Gemini через OpenRouter) – получить совет")
+        print("6. Выход")
+        choice = input("Выберите действие (1-6): ").strip()
 
         if choice == "1":
             print("\n--- Добавление дохода (Enter для отмены) ---")
@@ -86,23 +88,13 @@ def main():
 
         elif choice == "4":
             records = load_records()
-            if not records:
-                print("Записей пока нет.")
-            else:
-                print("\n--- Все записи ---")
-                for i, rec in enumerate(records, 1):
-                    if rec["type"] == "income":
-                        print(f"{i}. Доход: {rec['amount']} от {rec['source']} ({rec['date']})")
-                    elif rec["type"] == "expense":
-                        print(f"{i}. Расход: {rec['amount']} на {rec['category']} ({rec['date']})")
-                    elif rec["type"] == "event":
-                        end_info = f" – {rec['end_date']}" if rec['end_date'] != rec['start_date'] else ""
-                        amount_info = f", планируется: {rec['planned_amount']}" if rec['planned_amount'] else ""
-                        print(f"{i}. Событие: {rec['description']} ({rec['start_date']}{end_info}{amount_info})")
-                    else:
-                        print(f"{i}. Неизвестный тип записи")
+            run_assistant(records)
 
         elif choice == "5":
+            records = load_records()
+            ai_insights(records)
+
+        elif choice == "6":
             print("До свидания!")
             break
 
