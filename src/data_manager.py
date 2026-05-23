@@ -44,3 +44,19 @@ def add_expense(amount, category, description=""):
     records.append(record)
     save_records(records)
     return record
+
+
+def add_event(description, start_date, end_date="", planned_amount=0):
+    """Добавляет запись о событии/плане."""
+    record = {
+        "type": "event",
+        "description": description,
+        "start_date": start_date,
+        "end_date": end_date if end_date else start_date,
+        "planned_amount": planned_amount,
+        "date": str(date.today())
+    }
+    records = load_records()
+    records.append(record)
+    save_records(records)
+    return record
